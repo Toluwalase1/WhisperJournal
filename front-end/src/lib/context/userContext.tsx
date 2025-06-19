@@ -1,5 +1,5 @@
 import { createContext, useContext,  useEffect,  useReducer,  type ReactNode } from "react";
-import { json } from "stream/consumers";
+
 
 export const UserContext = createContext<any>(undefined);
 
@@ -22,6 +22,7 @@ function userReducer(state: typeof initialState, action:any){
             return state
             
     }
+    
 }
 
 export const UserContextProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -30,7 +31,8 @@ export const UserContextProvider: React.FC<{ children: ReactNode }> = ({ childre
     useEffect(()=>{
         const userString = localStorage.getItem('user');
         const user = userString ? JSON.parse(userString) : null;
-        dispatch({type:'LOGIN', action: user})
+        dispatch({type:'LOGIN', payload: user})
+        console.log('current auth context', user)
     }, [])
 
 

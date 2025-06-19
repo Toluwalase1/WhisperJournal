@@ -11,6 +11,8 @@ function generateToken(_id){
 
 const loginUser = async (req, res) => {
     // get email and password from request body
+    console.log(req.body)
+
     const { email, password } = req.body
 
     try {
@@ -33,9 +35,8 @@ const signupUser = async (req, res) => {
     try {
         const user = await User.signUp(name, email, password)
     
-        const token = generateToken(user._id)
 
-        res.json({user, token})
+        res.json({message: 'Registration Successful!'})
     }    
      catch (error) {
         res.status(400).json({error: error.message})

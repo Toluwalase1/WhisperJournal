@@ -16,7 +16,8 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+  
 })
 
 //creating a method to Signup user
@@ -73,11 +74,7 @@ userSchema.statics.loginUser = async function( email, password){
     if(!validator.isEmail(email)){
         throw Error('Email is not valid')
     }
-
-    if(!validator.isStrongPassword(password)){
-        throw Error('Password is not strong')
-    }
-    
+ 
     const loggedUser = await this.findOne({ email })
     
     if(!loggedUser){

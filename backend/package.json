@@ -7,7 +7,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.1",
     "nodemon": "^3.1.10",
-    "validator": "^13.15.15"
+    "validator": "^13.15.15",
+    "ws": "^8.18.2"
   },
   "scripts": {
     "dev": "nodemon index"
@@ -17,5 +18,5 @@
   "main": "index.js",
   "author": "Badejo",
   "license": "ISC",
-  "description": ""
+  "description": "A voice Journal App created by Badejo"
 }
