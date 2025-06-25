@@ -187,7 +187,7 @@ const EntriesPage = () => {
               <h1 className="text-center">Coming soon....</h1>
             </div>
           </div>
-          <div className="border text-black border-green-500 flex flex-col  p-2 gap-2 w-[90%] mx-auto ">
+          <div className=" text-black  flex flex-col  p-2 gap-2 w-[90%] mx-auto ">
             <h1 className="text-center text-white font-bold text-2xl">
               Recent Journal Entries
             </h1> 

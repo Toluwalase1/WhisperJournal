@@ -7,11 +7,13 @@ import { useState } from "react";
         const { dispatch } = useUserHook()
         const [loading, setLoading] = useState<boolean>()
          const [error, setError] = useState(null)
+      const api = import.meta.env.VITE_API_BASE_URL
+
     
 
          const Login = async (email: string, password: string) => {
             setLoading(true)
-            const response = await fetch('http://localhost:3000/api/user/login',{
+            const response = await fetch(`${api}/api/user/login`,{
              method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -7,12 +7,14 @@ import { useNavigate } from "react-router";
         const [loading, setLoading] = useState<boolean>()
         const [error, setError] = useState(null)
         const [success, setSuccess] = useState(null)
+              const api = import.meta.env.VITE_API_BASE_URL
+
         const navigate = useNavigate()
 
          const Signup = async (name: string, email: string,  password: string) => {
             setLoading(true)
             setError(null)
-            const response = await fetch('http://localhost:3000/api/user/signup',{
+            const response = await fetch(`${api}/api/user/signup`,{
              method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -7,13 +7,14 @@ export const useJournalActions = () => {
     //   const [journals, setJournals] = useState([]);
       const { dispatch, journals } = useJournalHook()
       const { user } = useUserHook()
+      const api = import.meta.env.VITE_API_BASE_URL
     // const [loading, setLoading] = useState(false);
     // const [error, setError] = useState<string | null>(null);
 
     const fetchJournals = async () => {
       
         try {
-            const response = await fetch("http://localhost:3000/user/journals", {
+            const response = await fetch(`${api}/user/journals`, {
                 method: "GET",
                 headers: {
                     "content-Type": "application/json",
@@ -41,7 +42,7 @@ export const useJournalActions = () => {
  
     const addJournal = async (title: string, text: string) => {
         try {
-            const response = await fetch("http://localhost:3000/user/new-journal", {
+            const response = await fetch(`${api}/user/new-journal`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -65,7 +66,7 @@ export const useJournalActions = () => {
 
     const editJournal = async (id: string, title: string, text: string) => {
          try {
-            const response = await fetch(`http://localhost:3000/user/edit-journal/${id}`, {
+            const response = await fetch(`${api}/user/edit-journal/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -90,7 +91,7 @@ export const useJournalActions = () => {
 
     const deleteJournal = async (id: string) => {
          try {
-            const response = await fetch(`http://localhost:3000/user/delete-journal/${id}`, {
+            const response = await fetch(`${api}/user/delete-journal/${id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

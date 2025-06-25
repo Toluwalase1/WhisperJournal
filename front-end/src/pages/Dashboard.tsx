@@ -25,7 +25,7 @@ const DashboardPage = () => {
             </Link>
           </div>
         </div>
-        <div className="border text-black border-green-500 flex flex-col  p-2 gap-2 w-[90%] mx-auto mt-10">
+        <div className=" text-black  flex flex-col  p-2 gap-2 w-[90%] mx-auto mt-10">
           <h1 className="text-center text-white font-bold text-2xl mb-5">
             Your Journal Entries
           </h1>
