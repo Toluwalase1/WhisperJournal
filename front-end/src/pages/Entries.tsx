@@ -100,13 +100,15 @@ const EntriesPage = () => {
   const validateEntry = () => {
         if(!title){
           alert('Title cannot be empty')
-          return;
+          return false;
         }
 
         if(!text){
           alert('Text cannot be empty')
-          return;
+          return false;
         }
+
+        return true;
   }
 
   return (
@@ -168,10 +170,12 @@ const EntriesPage = () => {
               {/* Buttons */}
               <div className="flex flex-col mb-2 gap-4">
                 <button className="border border-white cursor-pointer flex p-3 gap-2 rounded-md bg-[#131019] hover:scale-105" onClick={()=> {
-                  validateEntry()
-                  addJournal(title, text)
-                  setTitle('')
-                  setText('')
+                  
+                  if(validateEntry()){
+                    addJournal(title, text)
+                    setTitle('')
+                    setText('')
+                  }
                 }}>
                   <Save /> Save Journal
                 </button>
