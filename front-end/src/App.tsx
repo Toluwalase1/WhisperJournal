@@ -9,6 +9,7 @@ import EntriesPage from "./pages/Entries"
 import JournalPage from "./pages/Journal"
 import { useUserHook } from "./lib/context/userContext"
 import ErrorBoundary from "./components/ErrorBoundary"
+import { Analytics } from "@vercel/analytics/react"
 
 
 function App() {
@@ -43,7 +44,7 @@ function App() {
                 user ? <JournalPage /> : <Navigate to={'/login'} replace />
               }  />
             </Routes>
-          
+                    <Analytics />
           </div>
     </ErrorBoundary>
 
