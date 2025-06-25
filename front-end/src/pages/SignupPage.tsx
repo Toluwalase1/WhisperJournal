@@ -2,6 +2,7 @@ import { LeafyGreen, Eye , EyeOff   } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { useSignup } from '@/hooks/useSignup';
+import { Button } from "@/components/ui/button"
 
 
  
@@ -177,14 +178,14 @@ import { useSignup } from '@/hooks/useSignup';
             
 
             <div>
-              <button
+              <Button
                 type="submit"
-                disabled = {loading}
                 onClick={handleSubmit}
-                className="flex w-full justify-center rounded-md bg-[#04d8c5] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-[#127F7D] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                disabled={loading}
+                className="flex w-full justify-center rounded-md bg-[#04d8c5] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-[#127F7D] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 cursor-pointer"
               >
                 Sign Up
-              </button>
+              </Button>
             </div>
           </form>
         </div>
