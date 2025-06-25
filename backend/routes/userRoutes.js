@@ -1,5 +1,5 @@
-const express = require('express')
-const router = express.Router()
+// const express = require('express')
+// const router = express.Router()
 
-router.get('/get-user',getAllJournal)
+// router.patch('/update-user', updateUserController)
 

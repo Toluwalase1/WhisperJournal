@@ -32,8 +32,8 @@ const SettingsPage = () => {
                   placeholder={userName.user}
                   
                 />
-                <label>Theme Color</label>
-                <input type="color" value={themeColor} onChange={(e)=>setThemeColor(e.target.value)} name="" id="" className="size-[60px]" />
+                {/* <label>Theme Color</label>
+                <input type="color" value={themeColor} onChange={(e)=>setThemeColor(e.target.value)} name="" id="" className="size-[60px]" /> */}
                 {/* <span>
                 {themeColor}
                 </span> */}

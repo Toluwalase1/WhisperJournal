@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 
 
@@ -6,6 +7,7 @@ import { useState } from "react";
         const [loading, setLoading] = useState<boolean>()
         const [error, setError] = useState(null)
         const [success, setSuccess] = useState(null)
+        const navigate = useNavigate()
 
          const Signup = async (name: string, email: string,  password: string) => {
             setLoading(true)
@@ -32,7 +34,7 @@ import { useState } from "react";
 
                 setTimeout(()=> 
                 {
-                    window.location.href = '/login'
+                    navigate('/login')
 
                 }, 2000)
 

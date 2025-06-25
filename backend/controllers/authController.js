@@ -11,8 +11,6 @@ function generateToken(_id){
 
 const loginUser = async (req, res) => {
     // get email and password from request body
-    console.log(req.body)
-
     const { email, password } = req.body
 
     try {

@@ -1,149 +1,127 @@
-import { useState } from "react"
-import { useUserHook } from "@/lib/context/userContext";
+import { useUserHook } from "@/lib/context/userContext"
 import { useEffect, useState } from "react";
-let mediaRecorderRef: MediaRecorder | null = null;
-let socketRef: WebSocket | null = null;
-let streamRef: MediaStream | null = null;
+import { useJournalHook } from "@/lib/context/journalContext";
+
 
 export const useJournalActions = () => {
-    const [loading, setLoading] = useState<boolean>()
-    const [error, setError] = useState(null)
-      const { user } = useUserHook();
-  const [journals, setJournals] = useState();
-  const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
-  const [recording, setRecording] = useState(false);
-  const key = import.meta.env.VITE_DEEPGRAM;
+    //   const [journals, setJournals] = useState([]);
+      const { dispatch, journals } = useJournalHook()
+      const { user } = useUserHook()
+    // const [loading, setLoading] = useState(false);
+    // const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const getJournals = async () => {
-      const response = await fetch("http://localhost:3000/user/journals", {
-        method: "GET",
-        headers: {
-          "content-Type": "application/json",
-        },
-      });
-      const json = await response.json();
-
-      if (response.ok) {
-        console.log(json);
-        setJournals(json);
+    const fetchJournals = async () => {
+      
+        try {
+            const response = await fetch("http://localhost:3000/user/journals", {
+                method: "GET",
+                headers: {
+                    "content-Type": "application/json",
+                    'Authorization': `Bearer ${user.token}`
+                },
+                
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const json = await response.json();
+            // setJournals(json);
+            dispatch({type:'SET_JOURNALS', payload: json})
+        }
+      catch(error){
+        console.error(error)
       }
     };
-    getJournals();
-  }, []);
 
-  const handleRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      streamRef = stream;
-
-      const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: "audio/webm",
-      });
-      mediaRecorderRef = mediaRecorder;
-
-      const socket = new WebSocket("wss://api.deepgram.com/v1/listen", [
-        "token",
-        key,
-      ]);
-      socketRef = socket;
-
-      socket.onopen = () => {
-        mediaRecorder.addEventListener("dataavailable", (event) => {
-          if (socket.readyState === WebSocket.OPEN) {
-            socket.send(event.data);
-          }
-        });
-        mediaRecorder.start(100);
-      };
-
-      const fullMessage: string[] = text ? [text] : [""];
-
-      socket.onmessage = (message) => {
-        const receivedMessage = JSON.parse(message.data);
-        const transcript = receivedMessage.channel.alternatives[0].transcript;
-
-        if (transcript && transcript.trim() !== "") {
-          fullMessage.push(transcript);
-          const filteredMessage = fullMessage.filter((t) => t !== "");
-          setText(filteredMessage.join(" ").trim());
+    useEffect(() => {
+        fetchJournals();
+    }, []);
+ 
+    const addJournal = async (title: string, text: string) => {
+        try {
+            const response = await fetch("http://localhost:3000/user/new-journal", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${user.token}`
+                },
+                body: JSON.stringify({ title, body: text }),
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const newJournal = await response.json();
+            // console.log(newJournal)
+            dispatch({type: 'ADD_JOURNAL', payload: newJournal})
+        } catch (err) {
+            console.error("Error adding journal:", err);
+            throw err;
         }
-      };
+    };
 
-      socket.onclose = () => {
-        console.log("WebSocket connection closed");
-      };
+    const editJournal = async (id: string, title: string, text: string) => {
+         try {
+            const response = await fetch(`http://localhost:3000/user/edit-journal/${id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${user.token}`
+                },
+                body: JSON.stringify({ title, body: text }),
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const editedJournal = await response.json();
 
-      socket.onerror = (error) => {
-        console.error("WebSocket error:", error);
-      };
-    } catch (error) {
-      console.error("Error starting recording:", error);
-      // Clean up if there's an error
-      stopRecording();
-    }
-  };
+            dispatch({type: 'EDIT_JOURNAL', payload: editedJournal })
 
-  const stopRecording = () => {
-    // 1. Stop MediaRecorder (if exists)
-    if (mediaRecorderRef && mediaRecorderRef.state !== "inactive") {
-      mediaRecorderRef.stop(); // Stops recording
-      mediaRecorderRef = null;
-    }
-
-    // 2. Close WebSocket (if open)
-    if (socketRef && socketRef.readyState === WebSocket.OPEN) {
-      socketRef.close(); // Closes Deepgram connection
-      socketRef = null;
-    }
-
-    // 3. Stop microphone tracks (if stream exists)
-    if (streamRef) {
-      streamRef.getTracks().forEach((track) => track.stop());
-      streamRef = null;
-    }
-
-    setRecording(false); // Update UI state
-  };
-
-    const addJournal = async (title: string, body: string) => {
-        setLoading(true)
-
-        const response = await fetch('http://localhost:3000/user/new-journal', {
-            method: 'POST',
-            headers: {
-                'content-Type': 'application/json'
-            },
-            body: JSON.stringify({title, body})
-        }
-        )
-
-        console.log('before json',response)
-        const json = await response.json()
-        console.log('after json',json)
-
-        if(!response.ok){
-            setError(json.error)
-        }
-
-        if(response.ok){
-            setLoading(false)
+        } catch (err) {
+            console.error("Error editing journal:", err);
+            throw err;
         }
     }
 
-    return {
-        addJournal,
-        loading,
-        error,
-        user,
-        title,
-        text,
-        recording,
-        journals,
-        handleRecording,
-        stopRecording,
-        setRecording
+    const deleteJournal = async (id: string) => {
+         try {
+            const response = await fetch(`http://localhost:3000/user/delete-journal/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${user.token}`
+                },
+                
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+
+            dispatch({type: 'DELETE_JOURNAL', payload: id})
+        } catch (err) {
+            console.error("Error deleting journal:", err);
+            throw err;
+        }
     }
+
+  return {
+  
+    journals,
+     addJournal,
+     editJournal,
+     deleteJournal
+  }
+ 
+ 
+
+
+    
 
 }
