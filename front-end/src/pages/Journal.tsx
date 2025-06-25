@@ -4,6 +4,8 @@ import { useJournalHook } from "@/lib/context/journalContext";
 import { Mic, MicOff, Save, Trash } from "lucide-react";
 import { useJournalActions } from "@/hooks/useJournal";
 import { useNavigate } from "react-router";
+import type { Journal } from "@/types";
+
 
 let mediaRecorderRef: MediaRecorder | null = null;
 let socketRef: WebSocket | null = null;
@@ -105,7 +107,7 @@ const JournalPage = () => {
         useEffect(()=>{
             
             if( id && journals.length > 0){
-                const foundJournal = journals.find((journal)=> journal._id === id ) 
+                const foundJournal = journals.find((journal: Journal)=> journal._id === id ) 
                 // setCurrentJournal(foundJournal)
                 setEdit(foundJournal)
             }
@@ -141,7 +143,7 @@ const JournalPage = () => {
 
           <div className="flex  gap-4 flex-row justify-evenly  items-center  mt-2">
             <button className="border border-white cursor-pointer flex p-2  rounded-md bg-[#131019] " onClick={()=> {
-              editJournal(id, edit.title, edit.body)
+              editJournal(id ?? '', edit.title, edit.body)
                 navigate('/dashboard');
             }}>
               <Save />
@@ -162,7 +164,7 @@ const JournalPage = () => {
             </button>
             
             <button className="border border-white cursor-pointer flex p-2  rounded-md bg-[#131019]" onClick={()=> {
-              deleteJournal(id)
+              deleteJournal(id ?? '')
                 navigate('/dashboard');
 
             }}> 

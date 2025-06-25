@@ -1,5 +1,5 @@
 import { useUserHook } from "@/lib/context/userContext"
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useJournalHook } from "@/lib/context/journalContext";
 
 

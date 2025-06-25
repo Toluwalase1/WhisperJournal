@@ -5,6 +5,7 @@ import moment from "moment";
 import { useUserHook } from "@/lib/context/userContext";
 import { formatDate } from "@/lib/utils/formatDate";
 import { useJournalActions } from "@/hooks/useJournal";
+import type { Journal } from "@/types";
 
 const DashboardPage = () => {
   const { user } = useUserHook();
@@ -37,7 +38,7 @@ const DashboardPage = () => {
 
           {journals.length > 0 && (
             <div className="flex flex-col space-y-4  **:cursor-pointer">
-              {journals.map((journal) => (
+              {journals.map((journal: Journal) => (
                 <Link to={`/journal/${journal._id}`} key={journal._id}>
                   <div
                     key={journal._id}

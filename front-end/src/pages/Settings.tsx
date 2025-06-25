@@ -9,7 +9,7 @@ import { useUserHook } from "@/lib/context/userContext";
 
 
 const SettingsPage = () => {
-  const [themeColor, setThemeColor] = useState('#1C1D1E')
+  // const [themeColor, setThemeColor] = useState('#1C1D1E')
   const [user, setUser] = useState('')
    const { user:userName } = useUserHook()
 

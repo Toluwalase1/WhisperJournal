@@ -6,6 +6,8 @@ import { formatDate } from "@/lib/utils/formatDate";
 import { useJournalActions } from "@/hooks/useJournal";
 import { useJournalHook } from "@/lib/context/journalContext";
 import { Link } from "react-router";
+import type { Journal } from "@/types";
+
 
 let mediaRecorderRef: MediaRecorder | null = null;
 let socketRef: WebSocket | null = null;
@@ -202,7 +204,7 @@ const EntriesPage = () => {
             { journals.length > 0 && (
               <div
                  className="flex flex-col space-y-4   **:cursor-pointer w-[100%] h-[100%]">
-                {journals.map((journal) => (
+                {journals.map((journal: Journal) => (
                      <Link to={`/journal/${journal._id}`} key={journal._id} >
                         <div 
                           key={journal._id} 

@@ -1,5 +1,5 @@
 import { useLogout } from '@/hooks/useLogout';
-import { House, SquarePen, Gift, Settings, LogOut } from 'lucide-react';
+import { House, SquarePen,  Settings, LogOut } from 'lucide-react';
 import { Link } from 'react-router';
 import { useUserHook } from "@/lib/context/userContext";
 

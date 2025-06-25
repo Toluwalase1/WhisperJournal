@@ -1,5 +1,6 @@
 import { createContext, useReducer, useContext  } from "react";
-import { ReactNode } from "react";
+import type  { ReactNode } from "react";
+import type     { Journal } from "@/types";
 
 interface Props {
   children?: ReactNode;
@@ -7,7 +8,7 @@ interface Props {
 
 export const JournalContext = createContext<any>(undefined);  
 
-const initialState = {
+const initialState: {journals: Journal[]} = {
     journals: []
 };
 
